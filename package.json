@@ -1,0 +1,12 @@
+{
+  "name": "benksin",
+  "module": "index.js",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "dependencies": {
+    "cheerio": "^1.2.0"
+  }
+}
