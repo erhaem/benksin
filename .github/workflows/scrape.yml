@@ -1,0 +1,34 @@
+name: Scrape
+
+on:
+  schedule:
+    - cron: '0 22 * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Scrape
+        shell: bash
+        run: bash index.sh
+      - name: Push
+        shell: bash
+        run: |
+          git config user.name "erhaem"
+          git config user.email "${{ secrets.EMAIL }}"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "no changes, skip"
+          else
+            git commit -m "update price: $(date '+%F %H:%M:%S %Z')"
+            git push
+          fi
