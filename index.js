@@ -27,3 +27,5 @@ async function run() {
     console.error(err.message);
   }
 }
+
+run();
